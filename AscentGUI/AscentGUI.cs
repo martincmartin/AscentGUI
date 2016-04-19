@@ -116,15 +116,16 @@ namespace AscentGUI
             Orbit orbit = FlightGlobals.ActiveVessel.orbit;
 
             double desiredApA = orbit.referenceBody.atmosphereDepth * 1.1;
+            double desiredPeA = desiredApA;
             AddLabel("Current Ap: " + orbit.ApA.ToString("N0") + " / " + desiredApA.ToString("N0") + " m", labelStyle);
             double cosRV = orbit.h.magnitude / orbit.vel.magnitude / orbit.radius;
-            AddLabel("sin/cos of angle: " + cosRV.ToString("N3"), labelStyle);
+            AddLabel("Angle between prograde and vertical: " + Math.Acos(cosRV).ToString("N3"), labelStyle);
             AddLabel("Speed current: " + orbit.vel.magnitude.ToString("N3")+" m/s", labelStyle);
             double speedForAp;
             if (orbit.ApA >= desiredApA)
             {
-                speedForAp = orbit.vel.magnitude;
                 desiredApA = orbit.ApA;
+                speedForAp = orbit.vel.magnitude;
             } else {
                 speedForAp = SpeedToReachApoapsis(desiredApA, orbit.altitude, cosRV, orbit.referenceBody);
             }
@@ -143,10 +144,9 @@ namespace AscentGUI
 //            AddLabel("Specific gravity energy: " + (specificGravityEnergy/1000).ToString("N3") +" k", labelStyle);
 //            AddLabel("Specific kinetic energy: " + (specificKineticEnergy/1000).ToString("N3")+" k", labelStyle);
 //            AddLabel("Specific orbital energy: " + ((specificGravityEnergy + specificKineticEnergy)/1000).ToString("N3")+" k", labelStyle);
-            AddLabel("Current Pe: " + orbit.PeA.ToString("N0")+" m", labelStyle);
+            AddLabel("Periapsis: " + orbit.PeA.ToString("N0") + "/" + desiredPeA.ToString("N0") + " m", labelStyle);
             AddLabel("Desired Ap : " + desiredApA.ToString("N3") + " m", labelStyle);
-            AddLabel("Speed at desired Ap : " + speedAtDesiredApA.ToString("N3")+" m/s", labelStyle);
-            AddLabel("Desired Pe : " + (orbit.referenceBody.atmosphereDepth * 1.1).ToString("N3")+" m", labelStyle);
+            AddLabel("Speed at desired Ap : " + speedAtDesiredApA.ToString("N3") + " m/s", labelStyle);
             //            AddLabel("Speed at Ap from Orbit: " + orbit.getOrbitalSpeedAtDistance(orbit.ApR).ToString("N3"), labelStyle);
             double desiredSpeedAtDesiredApA = SpeedAtApoapsisFromApAPeA(desiredApA, orbit.referenceBody.atmosphereDepth * 1.1, orbit.referenceBody);
             AddLabel("Desired Speed at desired Ap: " + desiredSpeedAtDesiredApA.ToString("N3"), labelStyle);
