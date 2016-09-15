@@ -35,7 +35,7 @@
   <PropertyGroup Condition=" '$(OS)' == 'Unix' ">
     <KSPDir>/Users/$(USER)/Library/Application Support/Steam/steamapps/common/Kerbal Space Program</KSPDir>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(OS)' != 'Unix' ">
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
     <KSPDir>C:\Program Files (x86)\Steam\steamapps\common\Kerbal Space Program</KSPDir>
   </PropertyGroup>
   <PropertyGroup>
@@ -63,11 +63,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!--
-  <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Steam\steamapps\common\Kerbal Space Program\KSP.exe"</PostBuildEvent>
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
+    <PostBuildEvent>"$(KSPDir)\KSP.exe"</PostBuildEvent>
   </PropertyGroup>
--->
+  <PropertyGroup Condition=" '$(OS)' == 'Unix' ">
+    <PostBuildEvent>"$(KSPDir)/KSP.app/Contents/MacOS/KSP"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets. -->
   <Target Name="BeforeBuild">

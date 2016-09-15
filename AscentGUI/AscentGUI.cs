@@ -17,7 +17,6 @@ namespace AscentGUI
 
         public void Start()
         {
-            print("In Start()!");
             enabled = true;
             // Some day we might add settings, like AeroGUI
             // ConfigNode settings = GameDatabase.Instance.GetConfigNodes("AEROGUI")[0];
@@ -25,8 +24,6 @@ namespace AscentGUI
 
         public void OnGUI()
         {
-            print("In OnGUI!");
-
             if (guiEnabled)
             {
                 windowPos = GUILayout.Window("AscentGUI".GetHashCode(), windowPos, DrawWindow, "AscentGUI");
@@ -35,8 +32,6 @@ namespace AscentGUI
 
         public void Update()
         {
-            print("In Update()!");
-
             if (GameSettings.MODIFIER_KEY.GetKey() && Input.GetKeyDown(key))
             {
                 guiEnabled = !guiEnabled;
