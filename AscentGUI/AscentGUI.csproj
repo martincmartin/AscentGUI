@@ -34,9 +34,11 @@
   <!-- Also, this assumes a Steam install in the default location, so its really a hack. -->
   <PropertyGroup Condition=" '$(OS)' == 'Unix' ">
     <KSPDir>/Users/$(USER)/Library/Application Support/Steam/steamapps/common/Kerbal Space Program</KSPDir>
+    <KSPExe>$(KSPDir)/KSP.app/Contents/MacOS/KSP</KSPExe>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
     <KSPDir>C:\Program Files (x86)\Steam\steamapps\common\Kerbal Space Program</KSPDir>
+    <KSPExe>$(KSPDir)\KSP.exe</KSPExe>
   </PropertyGroup>
   <PropertyGroup>
     <KSPModDir>$(KSPDir)/GameData/AscentGUI/Plugins</KSPModDir>
@@ -54,8 +56,8 @@
     <Reference Include="UnityEngine">
       <HintPath>..\..\..\Library\Application Support\Steam\steamapps\common\Kerbal Space Program\KSP.app\Contents\Resources\Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="KSPUtil">
-      <HintPath>..\..\..\Library\Application Support\Steam\steamapps\common\Kerbal Space Program\KSP.app\Contents\Resources\Data\Managed\KSPUtil.dll</HintPath>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\..\Library\Application Support\Steam\steamapps\common\Kerbal Space Program\KSP.app\Contents\Resources\Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -63,20 +65,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
-    <PostBuildEvent>"$(KSPDir)\KSP.exe"</PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(OS)' == 'Unix' ">
-    <PostBuildEvent>"$(KSPDir)/KSP.app/Contents/MacOS/KSP"</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets. -->
-  <Target Name="BeforeBuild">
-    <Message Text="Hello Mom $(OS)" />
-    <Message Text="Blah $(USER)" />
-    <Message TEXT="KSP $(KSPDir)" />
-  </Target>
   <Target Name="AfterBuild">
     <Copy SourceFiles="$(OutputPath)/AscentGUI.dll" DestinationFolder="$(KSPModDir)" />
+    <Exec Command="&quot;$(KSPExe)&quot;" />
   </Target>
 </Project>
